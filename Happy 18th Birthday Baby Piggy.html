@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy 18th Birthday Baby Piggy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Mali:wght@500;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --main-pink: #ff758f;
+      --bubble-gum: #ffb3c6;
+      --pastel-bg: #fff0f3;
+      --card-white: #ffffff;
+      --text-brown: #593539;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--pastel-bg);
+      background-image: 
+        radial-gradient(#ffccd5 2.5px, transparent 2.5px),
+        radial-gradient(#ffccd5 2.5px, var(--pastel-bg) 2.5px);
+      background-size: 28px 28px;
+      background-position: 0 0, 14px 14px;
+      font-family: 'Mali', 'Padauk', cursive, sans-serif;
+      color: var(--text-brown);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .sticker {
+      position: fixed;
+      top: -40px;
+      user-select: none;
+      pointer-events: none;
+      z-index: 1;
+      animation: stickerFall linear infinite;
+    }
+
+    @keyframes stickerFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    .music-pill {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 999;
+      background: #ff758f;
+      color: #ffffff;
+      border: 3px solid #593539;
+      padding: 7px 16px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 3px 3px 0px #593539;
+    }
+
+    .music-pill:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px #593539;
+    }
+
+    .main-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 460px;
+      z-index: 10;
+    }
+
+    .cartoon-card {
+      background: var(--card-white);
+      width: 100%;
+      border-radius: 35px;
+      border: 4px solid #593539;
+      padding: 30px 22px;
+      text-align: center;
+      box-shadow: 7px 7px 0px #ffb3c6, 11px 11px 0px #593539;
+      display: none;
+      animation: slideIn 0.35s ease-out forwards;
+    }
+
+    .cartoon-card.active {
+      display: block;
+    }
+
+    @keyframes slideIn {
+      0% { opacity: 0; transform: scale(0.92); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .badge {
+      display: inline-block;
+      background: #ffccd5;
+      color: #c9184a;
+      border: 2px solid #593539;
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h1, h2 {
+      font-family: 'Comfortaa', 'Mali', 'Padauk', cursive;
+      color: #ff4d6d;
+      margin-bottom: 8px;
+    }
+
+    .quote-box {
+      background: #fff8f9;
+      border: 3px dashed #ffb3c6;
+      border-radius: 22px;
+      padding: 18px 16px;
+      margin: 15px 0;
+      text-align: left;
+    }
+
+    .quote-box p {
+      font-size: 0.98rem;
+      line-height: 2.1;
+      margin-bottom: 14px;
+      color: #593539;
+      font-weight: 500;
+    }
+
+    .quote-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .cartoon-icon {
+      font-size: 4.5rem;
+      margin: 12px 0;
+      display: inline-block;
+      animation: cuteBounce 2s infinite ease-in-out;
+      cursor: pointer;
+    }
+
+    @keyframes cuteBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.06); }
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .btn {
+      background: #ff758f;
+      color: white;
+      border: 3px solid #593539;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 4px 4px 0px #593539;
+      cursor: pointer;
+      font-family: 'Mali', 'Padauk', cursive;
+      transition: all 0.2s;
+    }
+
+    .btn:active:not(:disabled) {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px #593539;
+    }
+
+    .btn:disabled {
+      background: #d8c2c7;
+      border-color: #8c7277;
+      color: #635054;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .btn-back {
+      background: #ffccd5;
+      color: #593539;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="stickers-area"></div>
+
+  <audio id="birthdaySong" loop preload="auto">
+    <source src="https://d.uguu.se/qMczyane.mp4" type="video/mp4">
+  </audio>
+
+  <div class="music-pill" onclick="togglePlayMusic()">
+    <span id="musicSign">🎵</span>
+    <span id="musicLabel">သီချင်းဖွင့်ရန်</span>
+  </div>
+
+  <div class="main-wrapper">
+
+    <!-- PAGE 1 -->
+    <div class="cartoon-card active" id="page1">
+      <div class="badge">🌸 Page 1 🌸</div>
+      <h1>Happy 18th Birthday!</h1>
+      <p style="text-align: center; color: #ff758f; font-weight: 700;">
+        ကိုကို့ရဲ့ ချစ်စရာ ကလေးလေးအတွက် 🎀🎂
+      </p>
+
+      <div class="cartoon-icon" onclick="triggerConfetti()">🎁</div>
+
+      <div class="quote-box" style="text-align: center;">
+        <p style="text-align: center; margin: 0;">
+          ဒီနေ့ကျရောက်တဲ့ ၁၈ နှစ်ပြည့် မွေးနေ့လေးမှာ ကိုကို့ကလေးလေးအတွက် အမှတ်တရ surprise လက်ဆောင်လေး ပြင်ဆင်ထားတယ်နော်။
+        </p>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn timed-btn" data-target="2" data-text="ရှေ့ဆက်သွားရန် 👉" onclick="goToPage(2)">ရှေ့ဆက်သွားရန် 👉</button>
+      </div>
+    </div>
+
+    <!-- PAGE 2 -->
+    <div class="cartoon-card" id="page2">
+      <div class="badge">🤫 Page 2 (Did You Know?) 🤫</div>
+      <h2>ကလေးလေး သိလား? 🤔</h2>
+
+      <div class="cartoon-icon">🤭</div>
+
+      <div class="quote-box" style="text-align: center;">
+        <p style="text-align: center; font-size: 1.05rem; font-weight: 700; color: #c9184a;">
+          သိပ္ပံပညာရှင်တွေ လေ့လာတွေ့ရှိချက်အရ လူတွေဟာ "အသက်ရှူနေရင်း ပြုံးလို့ လုံးဝမရဘူး" တဲ့... အတည်ပြောတာနော်!
+        </p>
+        <p style="text-align: center; font-size: 0.95rem; color: #7a5054;">
+          မယုံရင် ကလေးလေး အခုပဲ ကိုယ်တိုင် စမ်းကြည့်လိုက်ပါဦး... 👀
+        </p>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="goToPage(1)">⬅ ရှေ့သို့</button>
+        <button class="btn timed-btn" data-target="3" data-text="စမ်းကြည့်ပြီးပြီ နှိပ်ပါ 😝" onclick="goToPage(3)">စမ်းကြည့်ပြီးပြီ နှိပ်ပါ 😝</button>
+      </div>
+    </div>
+
+    <!-- PAGE 3 -->
+    <div class="cartoon-card" id="page3">
+      <div class="badge">😜 Page 3 (Caught You!) 😜</div>
+      <h2>မိသွားပြီနော်! 🙈</h2>
+
+      <div class="cartoon-icon" onclick="triggerConfetti()">🐷</div>
+
+      <div class="quote-box" style="text-align: center;">
+        <p style="text-align: center; font-size: 1.05rem; font-weight: 700; color: #c9184a;">
+          ဟီးဟီး... အခုပဲ ပြုံးပြုံးကြီးနဲ့ အသက်ရှူကြည့်လိုက်တယ် မဟုတ်လား ဝက်ပေါက်စလေး? 😜
+        </p>
+        <p style="text-align: center; font-size: 0.95rem; color: #593539;">
+          လိမ်လိုက်တာပါဗျာ... ကလေးလေးရဲ့ ချစ်စရာကောင်းတဲ့ အပြုံးလေးကို မြင်ချင်လို့ စနောက်လိုက်တာ! အမြဲတမ်း အခုလိုပဲ ပြုံးပျော်နေပေးနော် 🌸
+        </p>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="goToPage(2)">⬅ ရှေ့သို့</button>
+        <button class="btn timed-btn" data-target="4" data-text="ရင်ဖွင့်လွှာဖတ်ရန် 💌" onclick="goToPage(4)">ရင်ဖွင့်လွှာဖတ်ရန် 💌</button>
+      </div>
+    </div>
+
+    <!-- PAGE 4 -->
+    <div class="cartoon-card" id="page4">
+      <div class="badge">💌 Page 4 💌</div>
+      <h2>ကိုကို့ရဲ့ ရင်ဖွင့်လွှာ</h2>
+
+      <div class="quote-box">
+        <p>
+          ဘာလိုလိုနဲ့ ကိုကို့ရဲ့ ကလေးလေးတောင် လူကြီးပေါက်စလေး ဖြစ်လာခဲ့ပီ။ ကိုကို့မျက်စိရှေ့တင် လိမ်လိမ်မာမာ ကြီးပြင်းလာခဲ့ပေးလို့ ကျေးဇူးတင်ပါတယ်။
+        </p>
+        <p>
+          ကိုကို ဘယ်လောက်ဆိုးဆိုး သည်းခံပြီး အနားမှာနေခဲ့ပေးတာတွေအတွက်လဲ ကျေးဇူးတင်ပါတယ်နော်။
+        </p>
+        <p>
+          ဘဝရဲ့ နောက်ဆုံးအချိန်တွေထိ အတူတူရှိသွားချင်ပါတယ်။ ကိုကို့ကလေးငယ်လေးကို ကိုကို့အသက်ထက်ပို ချစ်ပါတယ်နော်။ ထုတ်မပြတတ်တဲ့ အချစ်တွေ၊ ဂရုစိုက်မှုတွေ၊ နားလည်မှုတွေအတွက် တောင်းပန်ပါတယ်နော်။ နောက်လာမယ့် မွေးနေ့တိုင်းမှာလဲ အတူတူရှိသွားချင်ပါတယ်။
+        </p>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="goToPage(3)">⬅ ရှေ့သို့</button>
+        <button class="btn timed-btn" data-target="5" data-text="ဆုတောင်းဖတ်ရန် 🎈" onclick="goToPage(5)">ဆုတောင်းဖတ်ရန် 🎈</button>
+      </div>
+    </div>
+
+    <!-- PAGE 5 -->
+    <div class="cartoon-card" id="page5">
+      <div class="badge">🎂 Page 5 🎂</div>
+      <h2>မွေးနေ့ ဆုမွန်ကောင်း</h2>
+
+      <div class="cartoon-icon" onclick="blowCake()">🎂</div>
+      <p style="text-align: center; font-size: 0.9rem; color: #ff758f; font-weight: 700; margin-bottom: 10px;">
+        (ကိတ်မုန့်လေးကို နှိပ်ပြီး ဆုတောင်းပါနော် ✨)
+      </p>
+
+      <div class="quote-box">
+        <p style="margin: 0;">
+          ဒီနေ့ကျရောက်တဲ့ ၁၈ နှစ်ပြည့် မွေးနေ့လေးကစပြီး ကိုကို့ကလေးလေး စိတ်ချမ်းသာခြင်း၊ ကိုယ်ကျန်းမာခြင်းတွေနဲ့ ပြည့်စုံပါစေ။ လိုချင်တဲ့ အိပ်မက်တွေ၊ ရည်မှန်းချက်တွေအားလုံး အခက်အခဲမရှိ အကောင်အထည်ဖော်နိုင်ပြီး မျက်နှာထက်မှာလည်း အမြဲတမ်း ပျော်ရွှင်တဲ့ အပြုံးလေးတွေပဲ ပိုင်ဆိုင်ပါစေနော်။ 🤍🌸
+        </p>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="goToPage(4)">⬅ ရှေ့သို့</button>
+        <button class="btn timed-btn" data-target="6" data-text="နောက်ဆုံးစာမျက်နှာ 🍓" onclick="goToPage(6)">နောက်ဆုံးစာမျက်နှာ 🍓</button>
+      </div>
+    </div>
+
+    <!-- PAGE 6 -->
+    <div class="cartoon-card" id="page6">
+      <div class="badge">🐷 Page 6 🐷</div>
+      <div class="cartoon-icon" onclick="triggerConfetti()">💖</div>
+      <h2>Love you baby piggy</h2>
+
+      <div class="quote-box" style="text-align: center;">
+        <p style="text-align: center; font-weight: 700; color: #c9184a; font-size: 1.05rem; margin-bottom: 8px;">
+          နောက်လာမယ့် မွေးနေ့ပေါင်းများစွာတိုင်အောင် ကိုကို့အနားမှာ အမြဲရှိပေးပါနော်။ 🐷🍓
+        </p>
+        <p style="text-align: center; color: #7a5054; font-size: 0.9rem; margin: 0;">
+          - ကိုကို့ရဲ့ အသည်းနှလုံးလေးထံသို့ -
+        </p>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="goToPage(5)">⬅ ရှေ့သို့</button>
+        <button class="btn" onclick="triggerConfetti()">မုန့်ကြဲပေးပါ 🎉</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const icons = ['🍓', '🎀', '🌸', '✨', '🎂', '🐷', '💖', '🍭'];
+    function createSticker() {
+      const sticker = document.createElement('div');
+      sticker.className = 'sticker';
+      sticker.innerText = icons[Math.floor(Math.random() * icons.length)];
+      sticker.style.left = Math.random() * 90 + 'vw';
+      sticker.style.animationDuration = (Math.random() * 3 + 4) + 's';
+      sticker.style.fontSize = (Math.random() * 12 + 20) + 'px';
+      document.body.appendChild(sticker);
+
+      setTimeout(() => sticker.remove(), 7000);
+    }
+    setInterval(createSticker, 400);
+
+    let activeInterval = null;
+
+    function applyCountdown(pageElement) {
+      if (activeInterval) clearInterval(activeInterval);
+
+      const nextBtn = pageElement.querySelector('.timed-btn');
+      if (!nextBtn) return;
+
+      const defaultText = nextBtn.getAttribute('data-text');
+      let countdown = 3;
+
+      nextBtn.disabled = true;
+      nextBtn.innerText = `ခဏစောင့်ပေးပါ (${countdown}s)`;
+
+      activeInterval = setInterval(() => {
+        countdown--;
+        if (countdown > 0) {
+          nextBtn.innerText = `ခဏစောင့်ပေးပါ (${countdown}s)`;
+        } else {
+          clearInterval(activeInterval);
+          nextBtn.disabled = false;
+          nextBtn.innerText = defaultText;
+        }
+      }, 1000);
+    }
+
+    function goToPage(pageNum) {
+      document.querySelectorAll('.cartoon-card').forEach(card => {
+        card.classList.remove('active');
+      });
+      const activeCard = document.getElementById('page' + pageNum);
+      activeCard.classList.add('active');
+      applyCountdown(activeCard);
+      triggerConfetti();
+    }
+
+    applyCountdown(document.getElementById('page1'));
+
+    const song = document.getElementById('birthdaySong');
+    const musicSign = document.getElementById('musicSign');
+    const musicLabel = document.getElementById('musicLabel');
+    let isPlaying = false;
+
+    function togglePlayMusic() {
+      if (isPlaying) {
+        song.pause();
+        musicSign.innerText = '🔇';
+        musicLabel.innerText = 'သီချင်းရပ်ထား';
+        isPlaying = false;
+      } else {
+        song.play().then(() => {
+          musicSign.innerText = '🎵';
+          musicLabel.innerText = 'Playing';
+          isPlaying = true;
+        }).catch(() => {});
+      }
+    }
+
+    document.body.addEventListener('click', function() {
+      if (!isPlaying) {
+        song.play().then(() => {
+          isPlaying = true;
+          musicSign.innerText = '🎵';
+          musicLabel.innerText = 'Playing';
+        }).catch(() => {});
+      }
+    }, { once: true });
+
+    function triggerConfetti() {
+      confetti({
+        particleCount: 50,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#ff85a2', '#ffb3c6', '#ffd166', '#ffffff', '#ff4d6d']
+      });
+    }
+
+    function blowCake() {
+      triggerConfetti();
+      confetti({
+        particleCount: 30,
+        spread: 90,
+        shapes: ['circle'],
+        colors: ['#ff0a54', '#ff477e']
+      });
+    }
+  </script>
+</body>
+</html>
